@@ -1,0 +1,93 @@
+.student-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(30, 41, 59, 0.5); /* azul oscuro translúcido */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.student-modal {
+  background: #fff;
+  padding: 32px 28px;
+  border-radius: 12px;
+  min-width: 340px;
+  box-shadow: 0 8px 32px rgba(30, 41, 59, 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-30px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.student-modal h2 {
+  margin-bottom: 18px;
+  color: #1976d2;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.student-modal .student-textboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.student-modal input[type="text"] {
+  padding: 8px 12px;
+  border: 1px solid #bdbdbd;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.student-modal input[type="text"]:focus {
+  border: 1.5px solid #1976d2;
+}
+
+.save-student-btn {
+  padding: 10px 24px;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background 0.2s;
+  width: 100%;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.save-student-btn:hover {
+  background-color: #155a8a;
+}
+
+.close-modal-btn {
+  padding: 8px 18px;
+  background: #eee;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 4px;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.close-modal-btn:hover {
+  background-color: #ccc;
+}
