@@ -12,15 +12,50 @@ const useEditStudentModal = (reloadStudents, setEditModalOpen) => {
     _id: "",
   });
   const [editLoading, setEditLoading] = useState(false);
+  const [error, setError] = useState("");
 
+  //Only numbers [8 character max]
   const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "carnet") {
+      if (value && (!/^\d*$/.test(value) || value.length > 8)) {
+        return;
+      }
+    }
     setEditValues({
       ...editValues,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
   const handleEditStudent = async () => {
+    setError("");
+    // Validaciones
+    if (!editValues.carnet) {
+      setError("El carnet es obligatorio.");
+      return;
+    }
+    if (!/^\d+$/.test(editValues.carnet)) {
+      setError("El carnet solo debe contener números.");
+      return;
+    }
+    if (editValues.carnet.length > 8) {
+      setError("El carnet no debe tener más de 8 dígitos.");
+      return;
+    }
+    if (!editValues.nombre) {
+      setError("El nombre es obligatorio.");
+      return;
+    }
+    if (!editValues.grado) {
+      setError("El grado es obligatorio.");
+      return;
+    }
+    if (!editValues.estado) {
+      setError("El estado es obligatorio.");
+      return;
+    }
+
     setEditLoading(true);
     try {
       await fetch(`${API_URL}/students/${editValues._id}`, {
@@ -31,7 +66,7 @@ const useEditStudentModal = (reloadStudents, setEditModalOpen) => {
       setEditModalOpen(false);
       reloadStudents();
     } catch (err) {
-      // Puedes manejar errores aquí si lo deseas
+      setError("Error al editar estudiante.");
     }
     setEditLoading(false);
   };
@@ -42,6 +77,8 @@ const useEditStudentModal = (reloadStudents, setEditModalOpen) => {
     handleEditInputChange,
     handleEditStudent,
     editLoading,
+    error,
+    setError,
   };
 };
 

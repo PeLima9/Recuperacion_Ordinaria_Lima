@@ -11,15 +11,50 @@ const useAddStudentModal = (reloadStudents, setShowModal) => {
     estado: "",
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
+  //Only numbers [8 character max]
   const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "carnet") {
+      if (value && (!/^\d*$/.test(value) || value.length > 8)) {
+        return;
+      }
+    }
     setFormValues({
       ...formValues,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
   const handleAddStudent = async () => {
+    setError("");
+    // Validaciones
+    if (!formValues.carnet) {
+      setError("El carnet es obligatorio.");
+      return;
+    }
+    if (!/^\d+$/.test(formValues.carnet)) {
+      setError("El carnet solo debe contener números.");
+      return;
+    }
+    if (formValues.carnet.length > 8) {
+      setError("El carnet no debe tener más de 8 dígitos.");
+      return;
+    }
+    if (!formValues.nombre) {
+      setError("El nombre es obligatorio.");
+      return;
+    }
+    if (!formValues.grado) {
+      setError("El grado es obligatorio.");
+      return;
+    }
+    if (!formValues.estado) {
+      setError("El estado es obligatorio.");
+      return;
+    }
+
     setLoading(true);
     try {
       await fetch(`${API_URL}/students`, {
@@ -37,7 +72,7 @@ const useAddStudentModal = (reloadStudents, setShowModal) => {
       setShowModal(false);
       reloadStudents();
     } catch (err) {
-      // Manejo de error opcional
+      setError("Error al agregar estudiante.");
     }
     setLoading(false);
   };
@@ -48,6 +83,8 @@ const useAddStudentModal = (reloadStudents, setShowModal) => {
     handleInputChange,
     handleAddStudent,
     loading,
+    error,
+    setError,
   };
 };
 
